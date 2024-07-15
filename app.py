@@ -22,20 +22,24 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 # 배경음악 목록 (실제 경로로 교체해야 함)
 # 현재 스크립트의 디렉토리 경로
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 BACKGROUND_MUSIC = {
-    "dream": os.path.join(current_dir, "backgroundmusic", "dream.mp3"),
-    "frost": os.path.join(current_dir, "backgroundmusic", "frost.mp3"),
-    "attunda": os.path.join(current_dir, "backgroundmusic", "attunda.mp3"),
-    "fyrsta": os.path.join(current_dir, "backgroundmusic", "fyrsta.mp3"),
-    "paris": os.path.join(current_dir, "backgroundmusic", "paris.mp3"),
-    "periwig": os.path.join(current_dir, "backgroundmusic", "periwig.mp3"),
-    "post": os.path.join(current_dir, "backgroundmusic", "post.mp3"),
-    "sitcom": os.path.join(current_dir, "backgroundmusic", "sitcom.mp3"),
-    "sky": os.path.join(current_dir, "backgroundmusic", "sky.mp3"),
-    "teatime": os.path.join(current_dir, "backgroundmusic", "teatime.mp3"),
-    "ukulele": os.path.join(current_dir, "backgroundmusic", "ukulele.mp3"),
+    "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
+    "frost": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/frost.mp3",
+    "attunda": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/attunda.mp3",
+    "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
+    "fyrsta": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/fyrsta.mp3",
+    "paris": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/paris.mp3",
+    "periwig": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/periwig.mp3",
+    "picnic": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/picnic.mp3",
+    "sitcom": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sitcom.mp3",
+    "sky": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sky.mp3",
+    "teatime": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/teatime.mp3",
+    "ukulele": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/ukulele.mp3",
+
+    # ... 나머지 음악 파일들도 같은 방식으로 추가 ...
 }
 
 # 배경음악 목록 생성
