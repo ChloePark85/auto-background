@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # 배경음악 폴더 경로
-bg_music_dir = os.path.join(current_dir, "background_music")
+bg_music_dir = os.path.join(current_dir, "backgroundmusic")
 
 # 배경음악 목록 생성
 BACKGROUND_MUSIC = {
