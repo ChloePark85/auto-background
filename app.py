@@ -125,11 +125,12 @@ def load_audio(url):
 async def apply_background_music(main_audio, background_audio, fade_duration=10000):
     # 배경음악 준비
     bg_intro = background_audio[:fade_duration].fade_out(duration=fade_duration)
-    bg_outro = background_audio[:fade_duration].fade_in(duration=fade_duration)
+    bg_main = background_audio[fade_duration:-(fade_duration)]
+    bg_outro = background_audio[-fade_duration:].fade_out(duration=fade_duration)
 
     # 메인 오디오 준비
     main_duration = len(main_audio)
-    result = AudioSegment.silent(duration=main_duration + 2*fade_duration)
+    result = AudioSegment.silent(duration=main_duration + fade_duration)
 
     # 배경음악 인트로 적용
     result = result.overlay(bg_intro, position=0)
@@ -138,7 +139,7 @@ async def apply_background_music(main_audio, background_audio, fade_duration=100
     result = result.overlay(main_audio, position=fade_duration)
 
     # 배경음악 아웃트로 적용
-    result = result.overlay(bg_outro, position=main_duration + fade_duration)
+    result = result.overlay(bg_outro, position=main_duration - fade_duration)
 
     return result
 
