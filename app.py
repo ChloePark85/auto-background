@@ -11,13 +11,13 @@ import asyncio
 import psutil
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from concurrent.futures import ThreadPoolExecutor
 import subprocess
 import mutagen
 from mutagen.mp3 import MP3
 from mutagen.wave import WAVE
 from mutagen.m4a import M4A
 import requests
+import io
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -27,18 +27,18 @@ logger = logging.getLogger(__name__)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 BACKGROUND_MUSIC = {
-    "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
-    "frost": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/frost.mp3",
-    "attunda": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/attunda.mp3",
-    "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
-    "fyrsta": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/fyrsta.mp3",
-    "paris": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/paris.mp3",
-    "periwig": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/periwig.mp3",
-    "picnic": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/picnic.mp3",
-    "sitcom": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sitcom.mp3",
-    "sky": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sky.mp3",
-    "teatime": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/teatime.mp3",
-    "ukulele": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/ukulele.mp3",
+    "dream": "https://nadio-studio-open-fonts-metadata.s3.ap-northeast-2.amazonaws.com/audio/dream.mp3",
+    # "frost": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/frost.mp3",
+    # "attunda": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/attunda.mp3",
+    # "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
+    # "fyrsta": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/fyrsta.mp3",
+    # "paris": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/paris.mp3",
+    # "periwig": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/periwig.mp3",
+    # "picnic": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/picnic.mp3",
+    # "sitcom": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sitcom.mp3",
+    # "sky": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sky.mp3",
+    # "teatime": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/teatime.mp3",
+    # "ukulele": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/ukulele.mp3",
 
     # ... 나머지 음악 파일들도 같은 방식으로 추가 ...
 }
@@ -108,7 +108,7 @@ def convert_to_mp3(input_file, output_file):
         logger.error(f"Error converting to MP3: {e.stderr}")
         return False
 
-@st.cache_data
+@st.cache_data()
 def load_audio(url):
     try:
         response = requests.get(url)
@@ -144,7 +144,7 @@ async def apply_background_music(main_audio, background_audio, fade_duration=100
 
 async def process_audio(input_file, background_url, progress_bar):
     try:
-        main_audio = load_audio(input_file)
+        main_audio = AudioSegment.from_file(input_file)
         if main_audio is None:
             st.error("Failed to load the main audio file. Please try a different file.")
             return None
@@ -179,7 +179,10 @@ def main():
             tmp_file_path = tmp_file.name
 
         if check_audio_file(tmp_file_path):
-            st.audio(tmp_file_path)
+            # st.audio(tmp_file_path)
+            with open(tmp_file_path, "rb") as f:
+                audio_bytes = f.read()
+                st.audio(audio_bytes, format="audio/mp3")
 
             audio_info = get_audio_info(tmp_file_path)
             if audio_info:
