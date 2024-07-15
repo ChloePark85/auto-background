@@ -22,14 +22,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 # 배경음악 목록 (실제 경로로 교체해야 함)
 BACKGROUND_MUSIC = {
-    "dream": "https://drive.google.com/file/d/1xdifClE9B9dN4Vwn2vbST-NkxHVEr2Hx/view?usp=sharing",
-    "frost": "https://drive.google.com/file/d/1mAart2LjTC5nijCGxt1SnYwhtRCnw2_-/view?usp=sharing",
-    "fyrsta": "https://drive.google.com/file/d/122DOa4o0SRlcHrhdRZYrvG6djJDORzPM/view?usp=sharing",
-    "sky": "https://drive.google.com/file/d/1fnyPcLveYqlicGp-UiXmHuMZxl7KgC9-/view?usp=sharing",
-    "periwig": "https://drive.google.com/file/d/11e4rUd0KQaWuCG90UY5cXddCIbUqMcAZ/view?usp=sharing",
-    "picnic": "https://drive.google.com/file/d/122DOa4o0SRlcHrhdRZYrvG6djJDORzPM/view?usp=sharing",
-    "post": "https://drive.google.com/file/d/1ySUa4n4Tf1I_xfHz8UTSvv6SOz-PozNo/view?usp=sharing",
-    "attunda": "https://drive.google.com/file/d/104gWoexyNy1mteodapQ0tkBTbQeIf5TC/view?usp=sharing",
+    "dream": "https://drive.google.com/uc?export=download&id=1xdifClE9B9dN4Vwn2vbST-NkxHVEr2Hx",
+    "frost": "https://drive.google.com/uc?export=download&id=1mAart2LjTC5nijCGxt1SnYwhtRCnw2_-",
+    "fyrsta": "https://drive.google.com/uc?export=download&id=122DOa4o0SRlcHrhdRZYrvG6djJDORzPM",
+    "sky": "https://drive.google.com/uc?export=download&id=1fnyPcLveYqlicGp-UiXmHuMZxl7KgC9-",
+    "periwig": "https://drive.google.com/uc?export=download&id=11e4rUd0KQaWuCG90UY5cXddCIbUqMcAZ",
+    "post": "https://drive.google.com/uc?export=download&id=1ySUa4n4Tf1I_xfHz8UTSvv6SOz-PozNo",
+    "attunda": "https://drive.google.com/uc?export=download&id=104gWoexyNy1mteodapQ0tkBTbQeIf5TC",
 }
 
 def check_audio_file(file_path):
