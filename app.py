@@ -28,17 +28,17 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 BACKGROUND_MUSIC = {
     "dream": "https://nadio-studio-open-fonts-metadata.s3.ap-northeast-2.amazonaws.com/audio/dream.mp3",
-    # "frost": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/frost.mp3",
-    # "attunda": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/attunda.mp3",
-    # "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
-    # "fyrsta": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/fyrsta.mp3",
-    # "paris": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/paris.mp3",
-    # "periwig": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/periwig.mp3",
-    # "picnic": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/picnic.mp3",
-    # "sitcom": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sitcom.mp3",
-    # "sky": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sky.mp3",
-    # "teatime": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/teatime.mp3",
-    # "ukulele": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/ukulele.mp3",
+    "frost": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/frost.mp3",
+    "attunda": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/attunda.mp3",
+    "dream": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/dream.mp3",
+    "fyrsta": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/fyrsta.mp3",
+    "paris": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/paris.mp3",
+    "periwig": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/periwig.mp3",
+    "picnic": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/picnic.mp3",
+    "sitcom": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sitcom.mp3",
+    "sky": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/sky.mp3",
+    "teatime": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/teatime.mp3",
+    "ukulele": "https://audiobgmusic.s3.ap-northeast-2.amazonaws.com/ukulele.mp3",
 
     # ... 나머지 음악 파일들도 같은 방식으로 추가 ...
 }
