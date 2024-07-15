@@ -22,23 +22,20 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 # 배경음악 목록 (실제 경로로 교체해야 함)
 # 현재 스크립트의 디렉토리 경로
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# # 배경음악 폴더 경로
-# bg_music_dir = os.path.join(current_dir, "backgroundmusic")
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
 BACKGROUND_MUSIC = {
-    "dream": "/mount/src/auto-background/background_music/dream.mp3",
-    "frost": "/mount/src/auto-background/background_music/frost.mp3",
-    "attunda": "/mount/src/auto-background/background_music/attunda.mp3",
-    "fyrsta": "/mount/src/auto-background/background_music/fyrsta.mp3",
-    "paris": "/mount/src/auto-background/background_music/paris.mp3",
-    "periwig": "/mount/src/auto-background/background_music/periwig.mp3",
-    "post": "/mount/src/auto-background/background_music/post.mp3",
-    "sitcom": "/mount/src/auto-background/background_music/sitcom.mp3",
-    "sky": "/mount/src/auto-background/background_music/sky.mp3",
-    "teatime": "/mount/src/auto-background/background_music/teatime.mp3",
-    "ukulele": "/mount/src/auto-background/background_music/ukulele.mp3",
+    "dream": os.path.join(current_dir, "backgroundmusic", "dream.mp3"),
+    "frost": os.path.join(current_dir, "backgroundmusic", "frost.mp3"),
+    "attunda": os.path.join(current_dir, "backgroundmusic", "attunda.mp3"),
+    "fyrsta": os.path.join(current_dir, "backgroundmusic", "fyrsta.mp3"),
+    "paris": os.path.join(current_dir, "backgroundmusic", "paris.mp3"),
+    "periwig": os.path.join(current_dir, "backgroundmusic", "periwig.mp3"),
+    "post": os.path.join(current_dir, "backgroundmusic", "post.mp3"),
+    "sitcom": os.path.join(current_dir, "backgroundmusic", "sitcom.mp3"),
+    "sky": os.path.join(current_dir, "backgroundmusic", "sky.mp3"),
+    "teatime": os.path.join(current_dir, "backgroundmusic", "teatime.mp3"),
+    "ukulele": os.path.join(current_dir, "backgroundmusic", "ukulele.mp3"),
 }
 
 # 배경음악 목록 생성
