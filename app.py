@@ -21,16 +21,18 @@ from mutagen.m4a import M4A
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 # 배경음악 목록 (실제 경로로 교체해야 함)
-BACKGROUND_MUSIC = {
-    "dream": "https://drive.google.com/uc?export=download&id=1xdifClE9B9dN4Vwn2vbST-NkxHVEr2Hx",
-    "frost": "https://drive.google.com/uc?export=download&id=1mAart2LjTC5nijCGxt1SnYwhtRCnw2_-",
-    "fyrsta": "https://drive.google.com/uc?export=download&id=122DOa4o0SRlcHrhdRZYrvG6djJDORzPM",
-    "sky": "https://drive.google.com/uc?export=download&id=1fnyPcLveYqlicGp-UiXmHuMZxl7KgC9-",
-    "periwig": "https://drive.google.com/uc?export=download&id=11e4rUd0KQaWuCG90UY5cXddCIbUqMcAZ",
-    "post": "https://drive.google.com/uc?export=download&id=1ySUa4n4Tf1I_xfHz8UTSvv6SOz-PozNo",
-    "attunda": "https://drive.google.com/uc?export=download&id=104gWoexyNy1mteodapQ0tkBTbQeIf5TC",
-}
+# 현재 스크립트의 디렉토리 경로
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
+# 배경음악 폴더 경로
+bg_music_dir = os.path.join(current_dir, "background_music")
+
+# 배경음악 목록 생성
+BACKGROUND_MUSIC = {
+    file.split('.')[0]: os.path.join(bg_music_dir, file)
+    for file in os.listdir(bg_music_dir)
+    if file.endswith('.mp3')
+}
 def check_audio_file(file_path):
     try:
         probe_command = [
