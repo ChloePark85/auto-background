@@ -2,3 +2,4 @@ streamlit
 pydub
 psutil
 mutagen
+requests

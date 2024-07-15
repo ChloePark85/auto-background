@@ -17,6 +17,7 @@ import mutagen
 from mutagen.mp3 import MP3
 from mutagen.wave import WAVE
 from mutagen.m4a import M4A
+import requests
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -108,11 +109,17 @@ def convert_to_mp3(input_file, output_file):
         return False
 
 @st.cache_data
-def load_audio(file_path):
+def load_audio(url):
     try:
-        return AudioSegment.from_file(file_path)
+        response = requests.get(url)
+        if response.status_code == 200:
+            audio = AudioSegment.from_mp3(io.BytesIO(response.content))
+            return audio
+        else:
+            st.error(f"Failed to download audio file. Status code: {response.status_code}")
+            return None
     except Exception as e:
-        logger.error(f"Error loading audio: {str(e)}")
+        st.error(f"Error loading audio: {str(e)}")
         return None
 
 async def apply_background_music(main_audio, background_audio, fade_duration=10000):
@@ -135,7 +142,7 @@ async def apply_background_music(main_audio, background_audio, fade_duration=100
 
     return result
 
-async def process_audio(input_file, background_file, progress_bar):
+async def process_audio(input_file, background_url, progress_bar):
     try:
         main_audio = load_audio(input_file)
         if main_audio is None:
@@ -144,19 +151,14 @@ async def process_audio(input_file, background_file, progress_bar):
 
         progress_bar.progress(20)
 
-        background_audio = None
-        if background_file:
-            background_audio = load_audio(background_file)
-            if background_audio is None:
-                st.error("Failed to load the background music. Please try a different file.")
-                return None
+        background_audio = load_audio(background_url)
+        if background_audio is None:
+            st.error("Failed to load the background music. Please try a different file.")
+            return None
 
         progress_bar.progress(40)
 
-        if background_audio:
-            result = await apply_background_music(main_audio, background_audio)
-        else:
-            result = main_audio
+        result = await apply_background_music(main_audio, background_audio)
 
         progress_bar.progress(80)
 
@@ -200,17 +202,17 @@ def main():
             if st.button("Apply Background Music"):
                 progress_bar = st.progress(0)
                 with st.spinner("Applying background music..."):
-                    background_file = BACKGROUND_MUSIC[background_choice]
-
+                    background_url = BACKGROUND_MUSIC[background_choice]
+        
                     async def process_audio_async():
-                        return await process_audio(tmp_file_path, background_file, progress_bar)
-
+                        return await process_audio(tmp_file_path, background_url, progress_bar)
+                    
                     processed_audio = asyncio.run(process_audio_async())
-
+    
                 if processed_audio is not None:
                     output_path = tempfile.mktemp(suffix=".mp3")
                     processed_audio.export(output_path, format="mp3")
-
+                    
                     with open(output_path, "rb") as file:
                         btn = st.download_button(
                             label="Download Processed Audio",
@@ -218,15 +220,11 @@ def main():
                             file_name="processed_audio.mp3",
                             mime="audio/mp3"
                         )
-
+        
                     os.unlink(output_path)
                     st.success("Background music applied successfully!")
                 else:
                     st.error("Failed to process the audio. Please try a different file or settings.")
-        else:
-            st.error("The uploaded file is not a valid audio file. Please upload a different file.")
-
-        os.unlink(tmp_file_path)
 
 if __name__ == "__main__":
     main()
