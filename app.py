@@ -136,20 +136,32 @@ async def apply_background_music(main_audio, background_audio, fade_duration=100
     # 메인 오디오 길이에 맞게 배경음악 자르기
     background_audio = background_audio[:main_duration]
     
-    # 전체 배경음악의 볼륨을 크게 낮춤 (예: 25% 볼륨)
-    background_audio = background_audio - 12  # -12dB는 대략 25% 볼륨
+    # 중간 부분의 볼륨을 극도로 낮게 설정 (1% 볼륨)
+    low_volume = -30  # -40dB는 대략 1% 볼륨
     
-    # 앞뒤 10초 부분의 볼륨을 원래 볼륨으로 설정 (확연한 차이를 위해)
-    fade_in = background_audio[:fade_duration].fade_in(duration=fade_duration)
-    fade_out = background_audio[-fade_duration:].fade_out(duration=fade_duration)
+    # 볼륨 조절 함수
+    def adjust_volume(segment, start_vol, end_vol, duration):
+        return segment.fade(from_gain=start_vol, to_gain=end_vol, start=0, duration=duration)
+
+    # 앞부분: 원래 볼륨에서 낮은 볼륨으로 (10초)
+    intro = adjust_volume(background_audio[:fade_duration], 0, low_volume, fade_duration)
     
-    # 페이드 인/아웃 효과를 적용한 배경음악 생성
-    background_audio = (fade_in + 12) + background_audio[fade_duration:-fade_duration] + (fade_out + 12)
+    # 뒷부분: 낮은 볼륨에서 원래 볼륨으로 (5초), 그 후 페이드아웃 (5초)
+    outro_fade_duration = fade_duration // 2  # 5초
+    outro_fade_in = adjust_volume(background_audio[-fade_duration:-outro_fade_duration], low_volume, 0, outro_fade_duration)
+    outro_fade_out = background_audio[-outro_fade_duration:].fade_out(duration=outro_fade_duration)
+    
+    # 중간 부분: 매우 낮은 볼륨 유지
+    middle = background_audio[fade_duration:-fade_duration] + low_volume
+    
+    # 모든 부분 합치기
+    background_audio = intro + middle + outro_fade_in + outro_fade_out
     
     # 배경음악과 메인 오디오 합치기
     result = background_audio.overlay(main_audio)
     
     return result
+
 
 async def process_audio(input_file, background_url, progress_bar):
     try:
