@@ -122,26 +122,33 @@ def load_audio(url):
         st.error(f"Error loading audio: {str(e)}")
         return None
 
+
 async def apply_background_music(main_audio, background_audio, fade_duration=10000):
     # 배경음악 준비
-    fade_duration = 10000  # 10 seconds
-    bg_intro = background_audio[:fade_duration].fade_out(duration=fade_duration)
-    bg_outro = background_audio[:fade_duration].fade_out(duration=fade_duration)
-
-    # 메인 오디오 준비
+    bg_duration = len(background_audio)
     main_duration = len(main_audio)
-    total_duration = main_duration + fade_duration * 2
-    result = AudioSegment.silent(duration=total_duration)
-
-    # 배경음악 인트로 적용
-    result = result.overlay(bg_intro, position=0)
-
-    # 메인 오디오 적용
-    result = result.overlay(main_audio, position=fade_duration)
-
-    # 배경음악 아웃트로 적용
-    result = result.overlay(bg_outro, position=fade_duration + main_duration)
-
+    
+    # 메인 오디오보다 배경음악이 짧으면 반복
+    if bg_duration < main_duration:
+        repetitions = -(-main_duration // bg_duration)  # 올림 나눗셈
+        background_audio = background_audio * repetitions
+    
+    # 메인 오디오 길이에 맞게 배경음악 자르기
+    background_audio = background_audio[:main_duration]
+    
+    # 전체 배경음악의 볼륨을 크게 낮춤 (예: 25% 볼륨)
+    background_audio = background_audio - 12  # -12dB는 대략 25% 볼륨
+    
+    # 앞뒤 10초 부분의 볼륨을 원래 볼륨으로 설정 (확연한 차이를 위해)
+    fade_in = background_audio[:fade_duration].fade_in(duration=fade_duration)
+    fade_out = background_audio[-fade_duration:].fade_out(duration=fade_duration)
+    
+    # 페이드 인/아웃 효과를 적용한 배경음악 생성
+    background_audio = (fade_in + 12) + background_audio[fade_duration:-fade_duration] + (fade_out + 12)
+    
+    # 배경음악과 메인 오디오 합치기
+    result = background_audio.overlay(main_audio)
+    
     return result
 
 async def process_audio(input_file, background_url, progress_bar):
